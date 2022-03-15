@@ -2,7 +2,10 @@
 
 #work in progress, shall utilize AWK instead of GREP for better efficiency
 
+#uses ssh alias 'rc' from ~/.ssh/config, this is the default path for ssh configs
+
 #for use with Dovecot, Postfix,SpamAssassin, and works with bindkeys in Neomutt mail client.
+
 
 mail="$(grep "^From:" /dev/stdin | grep -o "[^<> ]\+@.\+\\.[^<>]\+")" && break
 
