@@ -1,10 +1,10 @@
 #!/bin/sh
 
-mail="$(grep "^From:" /dev/stdin | grep -o "[^<> ]\+@.\+\\.[^<>]\+")" && break
+mail="$(grep "^From:" /dev/stdin | grep -o "[^<> ]\+@.\+\\.[^<>]\+")"
 
-# Give an argument to this command to ban ALL addresses from this domain.
-if [ -n "$1" ]; then
-	domain="$(echo $mail | cut -d@ -f2)"
+# If the argument "all" is given to this command, ban ALL addresses from this domain.
+if [ "$1" = "all" ]; then
+	domain="$(echo "$mail" | cut -d@ -f2)"
 	echo "Really ban entire $domain domain? [y/N]"
 	read -r choice </dev/tty
 	echo "$choice" | grep -i "^y$" &&
@@ -12,8 +12,8 @@ if [ -n "$1" ]; then
 
 else
 	echo Ban only mail address.
-	echo "Really ban $mail? [y\N]"
+	echo "Really ban $mail? [y/N]"
 	read -r choice </dev/tty
-	echo $choice | grep -i "^y$" &&
+	echo "$choice" | grep -i "^y$" &&
 		eval "ssh rc 'echo blacklist_from $mail >> /etc/spamassassin/local.cf;systemctl reload spamassassin &'"
 fi
