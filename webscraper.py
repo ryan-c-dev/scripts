@@ -7,7 +7,7 @@ data = requests.get('https://www.imdb.com/title/tt13706018/episodes')
 
 soup = BeautifulSoup(data.text, 'html.parser')
 
-#grabs specific div with class to retrieve only the dates for epsode
+#grabs specific div with class to retrieve only the dates for episode
 
 release_date = soup.find_all('div', class_="airdate")
 
